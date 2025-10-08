@@ -1,7 +1,20 @@
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
+using SalesWebMvc.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Obter a connection string
+var connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext");
+// Registrar o DbContext com Pomelo MySQL
+builder.Services.AddDbContext<SalesWebMvcContext>(options =>
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 0)), mysqlOptions =>
+    {
+        mysqlOptions.MigrationsAssembly("SalesWebMvc");
+    }));
 
 var app = builder.Build();
 
