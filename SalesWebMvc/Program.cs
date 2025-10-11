@@ -12,6 +12,7 @@ builder.Services.AddControllersWithViews();
 // Registrar SeedingService
 builder.Services.AddScoped<SeedingService>();
 builder.Services.AddScoped<SellerService>();
+builder.Services.AddScoped<DepartmentService>();
 
 // Obter a connection string
 var connectionString = builder.Configuration.GetConnectionString("SalesWebMvcContext");
