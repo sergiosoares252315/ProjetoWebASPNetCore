@@ -1,3 +1,5 @@
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql;
 using SalesWebMvc.Models;
@@ -25,6 +27,13 @@ builder.Services.AddDbContext<SalesWebMvcContext>(options =>
     }));
 
 var app = builder.Build();
+var enUs = new CultureInfo("en-US");
+var localizationOptions = new RequestLocalizationOptions
+{
+    DefaultRequestCulture = new RequestCulture(enUs),
+    SupportedCultures = new List<CultureInfo> { enUs },
+    SupportedUICultures = new List<CultureInfo> { enUs }
+}; 
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -44,7 +53,10 @@ else
     app.UseHsts();
 }
 
-    app.UseHttpsRedirection();
+app.UseRequestLocalization(localizationOptions);
+
+app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
